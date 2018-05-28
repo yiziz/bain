@@ -24,6 +24,6 @@ class ProviderSerializer < ApplicationSerializer
 
   def provider_state
     state_id = self.object.state_id
-    scope[:id_to_state_code_hash][state_id]
+    State.id_to_state_code_hash[state_id]
   end
 end
