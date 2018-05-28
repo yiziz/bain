@@ -19,5 +19,7 @@ module Bain
     # Add lib directory to autoload paths, no more require!
     config.autoload_paths += %W{#{config.root}/lib}
     config.eager_load_paths += %W{#{config.root}/lib}
+
+    config.cache_store = :memory_store
   end
 end

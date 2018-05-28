@@ -2,7 +2,7 @@ module V1
   class ProvidersController < ApiController
     def index
       providers = Provider.first(2)
-      id_to_state_code_hash = State.all.map { |state| [state.id, state.code] }.to_h
+      id_to_state_code_hash = State.id_to_state_code_hash
       render json: ActiveModelSerializers::SerializableResource.new(
         providers,
         scope: {
