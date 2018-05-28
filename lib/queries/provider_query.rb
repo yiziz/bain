@@ -2,13 +2,12 @@ module Queries
   class ProviderQuery
     attr_reader :errors
 
-    def initialize(scope=Provider.all)
-      @scope = scope
+    def initialize()
       @errors = []
     end
 
-    def filter(params={})
-      scoped = filter_by_discharges(@scope, params[:min_discharges], params[:max_discharges])
+    def filter(scope, params)
+      scoped = filter_by_discharges(scope, params[:min_discharges], params[:max_discharges])
       scoped = filter_by_average_covered_charges(scoped, params[:min_average_covered_charges], params[:max_average_covered_charges])
       scoped = filter_by_average_medicare_payments(scoped, params[:min_average_medicare_payments], params[:max_average_medicare_payments])
       scoped = filter_by_state(scoped, params[:state])

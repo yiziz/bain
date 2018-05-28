@@ -2,7 +2,7 @@ module V1
   class ProvidersController < ApiController
     def index
       query = Queries::ProviderQuery.new
-      providers = query.filter(params)
+      providers = query.filter(Provider.all, params)
 
       if query.errors.any?
         render status: :bad_request, json: query.errors
