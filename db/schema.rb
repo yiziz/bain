@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_27_225839) do
+ActiveRecord::Schema.define(version: 2018_05_28_232836) do
 
   create_table "providers", force: :cascade do |t|
     t.string "drg_definition"
@@ -25,7 +25,11 @@ ActiveRecord::Schema.define(version: 2018_05_27_225839) do
     t.integer "average_medicare_payments_in_cents"
     t.integer "external_provider_id"
     t.integer "state_id"
+    t.index ["average_covered_charges_in_cents"], name: "index_providers_on_average_covered_charges_in_cents"
+    t.index ["average_medicare_payments_in_cents"], name: "index_providers_on_average_medicare_payments_in_cents"
+    t.index ["average_total_payments_in_cents"], name: "index_providers_on_average_total_payments_in_cents"
     t.index ["state_id"], name: "index_providers_on_state_id"
+    t.index ["total_discharges"], name: "index_providers_on_total_discharges"
   end
 
   create_table "states", force: :cascade do |t|
