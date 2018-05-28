@@ -106,7 +106,15 @@ module Queries
     end
 
     def sanitize_number_string(s)
-      s.gsub(',', '').tr('0', '')
+      return s if s.length == 0
+
+      removed_commas = s.gsub(',', '')
+      return '' if removed_commas.length == 0
+
+      remove_zero_padding = removed_commas.tr('0', '')
+      return '0' if remove_zero_padding.length == 0
+
+      remove_zero_padding
     end
   end
 end
