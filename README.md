@@ -83,6 +83,9 @@ Caching can be effective for the `/providers` endpoint should a common set of pa
 #### rate limiting
 Most public APIs rate limit to deter abuse.  Since this is an internal system, abuse should be less, but given the scale of the system, this still could have been considered. This would have been considered if the homework specified clarifying use cases.
 
+#### ordering
+I assumed that the ordering does not matter and thus the default ordering is based on how the data is loaded into the database.
+
 #### pagination
 There probably should be a default limit on the number of providers returned. Because the JSON format specified did not allow for meta data, I would have had to use HEADER values to implement pagination. However, for the sake of correctness, I did not include pagination.
 
@@ -91,4 +94,74 @@ Even internal systems need to be secured, especially if the system could be exte
 
 ## Heroku
 
-https://dz-bain.herokuapp.com/
+https://guarded-tor-63817.herokuapp.com/providers
+
+Heroku only provides 10,000 free rows of Postgres storage.  The Rails meta, schema migration, and states data take up 61 rows.  So I'm using a subset of the providers data (first 9899 rows).  The total number of rows used in Postgres should be 9960.
+
+#### Sample queries
+
+```
+https://guarded-tor-63817.herokuapp.com/providers?state=AL&max_discharges=32&min_discharges=32
+```
+
+```
+[
+  {
+    "Provider Name": "GEORGIANA HOSPITAL",
+    "Provider Street Address": "515 MIRANDA ST",
+    "Provider City": "GEORGIANA",
+    "Provider Zip Code": "36033",
+    "Hospital Referral Region Description": "AL - Montgomery",
+    "Total Discharges": 32,
+    "Provider State": "AL",
+    "Average Total Payments": "$4,277.31",
+    "Average Covered Charges": "$5,062.59",
+    "Average Medicare Payments": "$3,386.18"
+  },
+  {
+    "Provider Name": "ELIZA COFFEE MEMORIAL HOSPITAL",
+    "Provider Street Address": "205 MARENGO STREET",
+    "Provider City": "FLORENCE",
+    "Provider Zip Code": "35631",
+    "Hospital Referral Region Description": "AL - Birmingham",
+    "Total Discharges": 32,
+    "Provider State": "AL",
+    "Average Total Payments": "$10,439.46",
+    "Average Covered Charges": "$45,393.21",
+    "Average Medicare Payments": "$8,606.93"
+  },
+  {
+    "Provider Name": "UNIVERSITY OF ALABAMA HOSPITAL",
+    "Provider Street Address": "619 SOUTH 19TH STREET",
+    "Provider City": "BIRMINGHAM",
+    "Provider Zip Code": "35233",
+    "Hospital Referral Region Description": "AL - Birmingham",
+    "Total Discharges": 32,
+    "Provider State": "AL",
+    "Average Total Payments": "$8,031.12",
+    "Average Covered Charges": "$35,841.09",
+    "Average Medicare Payments": "$5,858.50"
+  }
+]
+```
+
+```
+https://guarded-tor-63817.herokuapp.com/providers?state=CO&min_average_covered_charges=41000&max_average_covered_charges=42000
+```
+
+```
+[
+  {
+    "Provider Name": "MEDICAL CENTER OF AURORA, THE",
+    "Provider Street Address": "1501 S POTOMAC ST",
+    "Provider City": "AURORA",
+    "Provider Zip Code": "80012",
+    "Hospital Referral Region Description": "CO - Denver",
+    "Total Discharges": 41,
+    "Provider State": "CO",
+    "Average Total Payments": "$7,252.58",
+    "Average Covered Charges": "$41,536.24",
+    "Average Medicare Payments": "$5,971.48"
+  }
+]
+```
